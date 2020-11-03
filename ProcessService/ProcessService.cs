@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 
 namespace ProcessService
 {
+    [ServiceBehavior(InstanceContextMode=InstanceContextMode.Single)]
     public class ProcessService : IProcessService
     {
         private readonly IList<WinProcess> _winProcesses = new List<WinProcess>();
@@ -24,7 +26,6 @@ namespace ProcessService
             var processes = System.Diagnostics.Process.GetProcesses().ToList();
             foreach (var process in processes)
             {
-                _winProcesses.Clear();
                 try
                 {
                     _winProcesses.Add(new WinProcess
